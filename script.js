@@ -40,6 +40,7 @@ function startMenu() {
 }
 
 
+
 function showQuestion() {
     console.log(timer);
 
@@ -60,6 +61,7 @@ function showQuestion() {
     });
 
 };
+
 
 function checkAnswers(event) {
     console.log(event.target);
@@ -94,7 +96,9 @@ function endMenu() {
     titleEl.textContent = "Great Job!"
     userScore.textContent = "Your final score is " + timer
     submitBtn.textContent = "Submit"
-    submitBtn.addEventListener("click", viewHighscore)
+    submitBtn.addEventListener("click", function
+    
+    viewHighscore)
 
     questionBoxEl.appendChild(titleEl)
     questionBoxEl.appendChild(userScore)
@@ -115,6 +119,7 @@ function timerFtn() {
         timer--;
     }, 1000);
 }
+
 
 function viewHighscore() {
     questionBoxEl.innerHTML = ""
