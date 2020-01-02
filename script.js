@@ -8,6 +8,8 @@ var highscores = []
 
 console.log(questions.length)
 
+
+// function that is displayed when the page is loaded and is the start menu for the quiz
 function startMenu() {
     index = 0;
     questionBoxEl.innerHTML = "";
@@ -40,7 +42,7 @@ function startMenu() {
 }
 
 
-
+// function that loops through the questions.
 function showQuestion() {
     console.log(timer);
 
@@ -62,27 +64,28 @@ function showQuestion() {
 
 };
 
-
+// function that keeps the score of the quiz
 function checkAnswers(event) {
     console.log(event.target);
 
+
+    if (questions[index].answer === event.target.textContent) {
+
+    } else {
+        timer -= 15;
+    }
+
+    index++
+
     if (index < questions.length) {
-
-        if (questions[index].answer === event.target.textContent) {
-
-        } else {
-
-            timer -= 15;
-        }
-
         showQuestion();
-        index++
     } else {
         endMenu();
     };
     console.log(index)
 };
 
+// function that takes you to the end menu allowing for submission of scores into the local
 function endMenu() {
     questionBoxEl.innerHTML = ""
 
@@ -96,9 +99,11 @@ function endMenu() {
     titleEl.textContent = "Great Job!"
     userScore.textContent = "Your final score is " + timer
     submitBtn.textContent = "Submit"
-    submitBtn.addEventListener("click", function
-    
-    viewHighscore)
+    submitBtn.addEventListener("click", function () {
+        highscoreSave()
+        viewHighscore()
+    }
+    )
 
     questionBoxEl.appendChild(titleEl)
     questionBoxEl.appendChild(userScore)
@@ -108,6 +113,7 @@ function endMenu() {
     timerEl.innerHTML = ""
 }
 
+// function that controls the timer
 function timerFtn() {
     var timerInterval = setInterval(function () {
         timerEl.textContent = "Time Remaining: " + timer
@@ -120,7 +126,7 @@ function timerFtn() {
     }, 1000);
 }
 
-
+// function that displayes the highscores
 function viewHighscore() {
     questionBoxEl.innerHTML = ""
     headerEl.innerHTML = ""
@@ -145,15 +151,20 @@ function viewHighscore() {
 
 }
 
+// function that clears the highscores.
 function clear() {
     highscoresEl.innerHTML = ""
 }
 
 function highscoreSave() {
     var score = {
-        name: userName;
-        score: timer;
+        name: userName.value,
+        score: timer,
     }
+    
+    highscores.push(score)
+
+    localStorage.setItem("userScore", JSON.stringify(highscores))
 }
 
 
