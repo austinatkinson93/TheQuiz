@@ -1,4 +1,3 @@
-console.log(questions);
 var index = 0;
 var questionBoxEl = document.querySelector("#questionBox");
 var headerEl = document.querySelector("#header")
@@ -6,7 +5,16 @@ var timerEl = document.createElement("span")
 var timer = 75;
 var highscores = []
 
-console.log(questions.length)
+var titleEl = document.createElement("h1");
+var userScore = document.createElement("p")
+var userName = document.createElement("input")
+var submitBtn = document.createElement("button")
+var startBtnEl = document.createElement("button");
+var viewHighscoreEl = document.createElement("a");
+var highscoresEl = document.createElement("ol")
+var goBackEl = document.createElement("button")
+var clearEl = document.createElement("button")
+
 
 
 // function that is displayed when the page is loaded and is the start menu for the quiz
@@ -16,9 +24,6 @@ function startMenu() {
     headerEl.innerHTML = "";
     timer = 75
 
-    var titleEl = document.createElement("h1");
-    var startBtnEl = document.createElement("button");
-    var viewHighscoreEl = document.createElement("a");
 
     titleEl.textContent = "Coding Quiz";
     startBtnEl.textContent = "start Quiz";
@@ -29,7 +34,6 @@ function startMenu() {
         timerFtn();
         showQuestion();
     });
-    // startBtnEl.addEventListener("click", timer)
     viewHighscoreEl.addEventListener("click", viewHighscore);
 
     questionBoxEl.appendChild(titleEl);
@@ -44,9 +48,7 @@ function startMenu() {
 
 // function that loops through the questions.
 function showQuestion() {
-    console.log(timer);
 
-    var titleEl = document.createElement("h1");
     questionBoxEl.innerHTML = "";
 
     titleEl.textContent = questions[index].title;
@@ -66,7 +68,6 @@ function showQuestion() {
 
 // function that keeps the score of the quiz
 function checkAnswers(event) {
-    console.log(event.target);
 
 
     if (questions[index].answer === event.target.textContent) {
@@ -82,17 +83,12 @@ function checkAnswers(event) {
     } else {
         endMenu();
     };
-    console.log(index)
 };
 
 // function that takes you to the end menu allowing for submission of scores into the local
 function endMenu() {
     questionBoxEl.innerHTML = ""
 
-    var titleEl = document.createElement("h1")
-    var userScore = document.createElement("p")
-    var userName = document.createElement("input")
-    var submitBtn = document.createElement("button")
 
     userName.setAttribute("placeholder", "Please enter initials")
 
@@ -100,8 +96,9 @@ function endMenu() {
     userScore.textContent = "Your final score is " + timer
     submitBtn.textContent = "Submit"
     submitBtn.addEventListener("click", function () {
-        highscoreSave()
-        viewHighscore()
+        console.log("submit button")
+        viewHighscore();
+        highscoreSave();
     }
     )
 
@@ -131,14 +128,11 @@ function viewHighscore() {
     questionBoxEl.innerHTML = ""
     headerEl.innerHTML = ""
 
-    var titleEl = document.createElement("h1")
-    var highscoresEl = document.createElement("ol")
-    var goBackEl = document.createElement("button")
-    var clearEl = document.createElement("button")
+    renderHighscores()
 
     titleEl.textContent = "Highscores"
     goBackEl.textContent = "Go Back"
-    clearEl.textContent = "Clear Highscores"
+    clearEl.textContent = "Clear Highscores"    
 
     goBackEl.addEventListener("click", startMenu)
     clearEl.addEventListener("click", clear)
@@ -153,23 +147,37 @@ function viewHighscore() {
 
 // function that clears the highscores.
 function clear() {
-    highscoresEl.innerHTML = ""
+    localStorage.setItem("UserScores", "")    
 }
 
 function highscoreSave() {
-    var score = {
+    var savedScores = {
         name: userName.value,
         score: timer,
     }
-    
-    highscores.push(score)
 
-    localStorage.setItem("userScore", JSON.stringify(highscores))
+    
+    highscores.push(savedScores)
+    localStorage.setItem("UserScores", JSON.stringify(highscores))
 }
 
 
 startMenu();
 
+function renderHighscores (){
+    highscoresEl.innerHTML = ""
+    var savedScores = JSON.parse(localStorage.getItem("UserScores"))
+
+    for (var i = 0; i < savedScores.length; i++) {
+        
+
+        var listItem = document.createElement("li")
+        listItem.textContent = savedScores[i].name + "  score: " + savedScores[i].score
+
+        highscoresEl.appendChild(listItem)
+    }
+
+}
 
 // things to fix:
 // - time penalities not adding correctly
