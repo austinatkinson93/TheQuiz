@@ -6,14 +6,32 @@ var timer = 75;
 var highscores = []
 
 var titleEl = document.createElement("h1");
-var userScore = document.createElement("p")
-var userName = document.createElement("input")
-var submitBtn = document.createElement("button")
+var userScore = document.createElement("p");
+var userName = document.createElement("input");
+var submitBtn = document.createElement("button");
 var startBtnEl = document.createElement("button");
 var viewHighscoreEl = document.createElement("a");
 var highscoresEl = document.createElement("ol")
 var goBackEl = document.createElement("button")
 var clearEl = document.createElement("button")
+
+titleEl.setAttribute("class", "row")
+viewHighscoreEl.setAttribute("class", "nav-link")
+
+
+//define all of our click handlers globally
+startBtnEl.addEventListener("click", function () {
+    timerFtn();
+    showQuestion();
+});
+
+viewHighscoreEl.addEventListener("click", viewHighscore);
+
+submitBtn.addEventListener("click", function () {
+    console.log("submit button")
+    highscoreSave();
+    viewHighscore();
+});
 
 
 
@@ -30,17 +48,17 @@ function startMenu() {
     viewHighscoreEl.textContent = "View Highscores";
     timerEl.textContent = "Time Remaining: " + timer;
 
-    startBtnEl.addEventListener("click", function () {
-        timerFtn();
-        showQuestion();
-    });
-    viewHighscoreEl.addEventListener("click", viewHighscore);
 
     questionBoxEl.appendChild(titleEl);
     questionBoxEl.appendChild(startBtnEl);
 
     headerEl.appendChild(viewHighscoreEl);
     headerEl.appendChild(timerEl);
+
+    if (localStorage.getItem("UserScores") != null) {
+        console.log("got high scores")
+        highscores = JSON.parse(localStorage.getItem("UserScores"));
+    }
 
 
 }
@@ -95,12 +113,6 @@ function endMenu() {
     titleEl.textContent = "Great Job!"
     userScore.textContent = "Your final score is " + timer
     submitBtn.textContent = "Submit"
-    submitBtn.addEventListener("click", function () {
-        console.log("submit button")
-        viewHighscore();
-        highscoreSave();
-    }
-    )
 
     questionBoxEl.appendChild(titleEl)
     questionBoxEl.appendChild(userScore)
@@ -117,9 +129,10 @@ function timerFtn() {
 
         if (timer === 0 || index >= questions.length) {
             clearInterval(timerInterval);
+        } else {
+            timer--;
         }
 
-        timer--;
     }, 1000);
 }
 
@@ -147,7 +160,9 @@ function viewHighscore() {
 
 // function that clears the highscores.
 function clear() {
-    localStorage.setItem("UserScores", "")    
+    localStorage.setItem("UserScores", "")  
+    highscores = []
+    viewHighscore()  
 }
 
 function highscoreSave() {
@@ -162,25 +177,21 @@ function highscoreSave() {
 }
 
 
-startMenu();
 
 function renderHighscores (){
     highscoresEl.innerHTML = ""
-    var savedScores = JSON.parse(localStorage.getItem("UserScores"))
-
-    for (var i = 0; i < savedScores.length; i++) {
+    console.log(highscores);
+    for (var i = 0; i < highscores.length; i++) {
         
-
+        
         var listItem = document.createElement("li")
-        listItem.textContent = savedScores[i].name + "  score: " + savedScores[i].score
-
+        listItem.textContent = highscores[i].name + "  score: " + highscores[i].score;
+        
         highscoresEl.appendChild(listItem)
     }
-
+    
 }
 
-// things to fix:
-// - time penalities not adding correctly
-// - function that is saving score to dom.
-// - styling 
-// - 
+
+startMenu();
+
