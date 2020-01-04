@@ -6,17 +6,25 @@ var timer = 75;
 var highscores = []
 
 var titleEl = document.createElement("h1");
-var userScore = document.createElement("p");
+var userScore = document.createElement("h3");
 var userName = document.createElement("input");
 var submitBtn = document.createElement("button");
 var startBtnEl = document.createElement("button");
 var viewHighscoreEl = document.createElement("a");
-var highscoresEl = document.createElement("ol")
-var goBackEl = document.createElement("button")
-var clearEl = document.createElement("button")
+var highscoresEl = document.createElement("ol");
+var goBackEl = document.createElement("button");
+var clearEl = document.createElement("button");
 
-titleEl.setAttribute("class", "row")
-viewHighscoreEl.setAttribute("class", "nav-link")
+titleEl.setAttribute("class", "row card-body");
+viewHighscoreEl.setAttribute("class", "nav-link");
+submitBtn.setAttribute("class", "btn btn-success");
+startBtnEl.setAttribute("class", "btn btn-primary");
+goBackEl.setAttribute("class", "btn btn-primary");
+clearEl.setAttribute("class", "btn btn-danger");
+userName.setAttribute("class", "form-control col-3");
+userName.setAttribute("style",  "margin-top: 5px; margin-bottom: 5px" );
+userScore.setAttribute("class", "row card-body")
+
 
 
 //define all of our click handlers globally
@@ -76,10 +84,14 @@ function showQuestion() {
 
     choicesArray.forEach(function (item) {
         var buttonEl = document.createElement("button");
-        //buttonEl.setAttribute("class", "btn red etc.");
+        var breakEl = document.createElement("br")
+        buttonEl.setAttribute("class", "row btn btn-primary");
+        buttonEl.setAttribute("style", "margin-top:2px; margin-left: 10px ")
         buttonEl.textContent = item;
         buttonEl.addEventListener("click", checkAnswers);
         questionBoxEl.appendChild(buttonEl);
+        questionBoxEl.appendChild(breakEl);
+
     });
 
 };
@@ -185,6 +197,7 @@ function renderHighscores (){
         
         
         var listItem = document.createElement("li")
+        listItem.setAttribute("class", "list-group-item")
         listItem.textContent = highscores[i].name + "  score: " + highscores[i].score;
         
         highscoresEl.appendChild(listItem)
