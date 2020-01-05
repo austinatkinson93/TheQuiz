@@ -1,10 +1,10 @@
 var index = 0;
 var questionBoxEl = document.querySelector("#questionBox");
 var headerEl = document.querySelector("#header")
-var timerEl = document.createElement("span")
 var timer = 75;
 var highscores = []
 
+var timerEl = document.createElement("span")
 var titleEl = document.createElement("h1");
 var userScore = document.createElement("h3");
 var userName = document.createElement("input");
@@ -65,7 +65,7 @@ function startMenu() {
 
     if (localStorage.getItem("UserScores") != null) {
         console.log("got high scores")
-        highscores = JSON.parse(localStorage.getItem("UserScores"));
+        highscores = JSON.parse(localStorage.getItem("UserScores"))
     }
 
 
@@ -74,7 +74,6 @@ function startMenu() {
 
 // function that loops through the questions.
 function showQuestion() {
-
     questionBoxEl.innerHTML = "";
 
     titleEl.textContent = questions[index].title;
@@ -84,9 +83,9 @@ function showQuestion() {
 
     choicesArray.forEach(function (item) {
         var buttonEl = document.createElement("button");
-        var breakEl = document.createElement("br")
+        var breakEl = document.createElement("br");
         buttonEl.setAttribute("class", "row btn btn-primary");
-        buttonEl.setAttribute("style", "margin-top:2px; margin-left: 10px ")
+        buttonEl.setAttribute("style", "margin-top:2px; margin-left: 10px ");
         buttonEl.textContent = item;
         buttonEl.addEventListener("click", checkAnswers);
         questionBoxEl.appendChild(buttonEl);
@@ -117,27 +116,28 @@ function checkAnswers(event) {
 
 // function that takes you to the end menu allowing for submission of scores into the local
 function endMenu() {
-    questionBoxEl.innerHTML = ""
+    headerEl.innerHTML
+    questionBoxEl.innerHTML = "";
 
 
-    userName.setAttribute("placeholder", "Please enter initials")
+    userName.setAttribute("placeholder", "Please enter initials");
 
-    titleEl.textContent = "Great Job!"
-    userScore.textContent = "Your final score is " + timer
-    submitBtn.textContent = "Submit"
+    titleEl.textContent = "Great Job!";
+    userScore.textContent = "Your final score is " + timer;
+    submitBtn.textContent = "Submit";
 
-    questionBoxEl.appendChild(titleEl)
-    questionBoxEl.appendChild(userScore)
-    questionBoxEl.appendChild(userName)
-    questionBoxEl.appendChild(submitBtn)
+    questionBoxEl.appendChild(titleEl);
+    questionBoxEl.appendChild(userScore);
+    questionBoxEl.appendChild(userName);
+    questionBoxEl.appendChild(submitBtn);
 
-    timerEl.innerHTML = ""
+    timerEl.innerHTML = "";
 }
 
 // function that controls the timer
 function timerFtn() {
     var timerInterval = setInterval(function () {
-        timerEl.textContent = "Time Remaining: " + timer
+        timerEl.textContent = "Time Remaining: " + timer;
 
         if (timer === 0 || index >= questions.length) {
             clearInterval(timerInterval);
@@ -150,31 +150,32 @@ function timerFtn() {
 
 // function that displayes the highscores
 function viewHighscore() {
-    questionBoxEl.innerHTML = ""
-    headerEl.innerHTML = ""
+    questionBoxEl.innerHTML = "";
+    headerEl.innerHTML = "";
 
-    renderHighscores()
 
-    titleEl.textContent = "Highscores"
-    goBackEl.textContent = "Go Back"
-    clearEl.textContent = "Clear Highscores"    
+    renderHighscores();
 
-    goBackEl.addEventListener("click", startMenu)
-    clearEl.addEventListener("click", clear)
+    titleEl.textContent = "Highscores";
+    goBackEl.textContent = "Go Back";
+    clearEl.textContent = "Clear Highscores";
 
-    questionBoxEl.appendChild(titleEl)
-    questionBoxEl.appendChild(highscoresEl)
-    questionBoxEl.appendChild(goBackEl)
-    questionBoxEl.appendChild(clearEl)
+    goBackEl.addEventListener("click", startMenu);
+    clearEl.addEventListener("click", clear);
+
+    questionBoxEl.appendChild(titleEl);
+    questionBoxEl.appendChild(highscoresEl);
+    questionBoxEl.appendChild(goBackEl);
+    questionBoxEl.appendChild(clearEl);
 
 
 }
 
 // function that clears the highscores.
 function clear() {
-    localStorage.setItem("UserScores", "")  
-    highscores = []
-    viewHighscore()  
+    localStorage.setItem("UserScores", "");
+    highscores = [];
+    viewHighscore();
 }
 
 function highscoreSave() {
@@ -184,18 +185,18 @@ function highscoreSave() {
     }
 
     
-    highscores.push(savedScores)
-    localStorage.setItem("UserScores", JSON.stringify(highscores))
+    highscores.push(savedScores);
+    localStorage.setItem("UserScores", JSON.stringify(highscores));
 }
 
 
 
 function renderHighscores (){
-    highscoresEl.innerHTML = ""
+    highscoresEl.innerHTML = "";
     console.log(highscores);
     for (var i = 0; i < highscores.length; i++) {
         
-        
+ 
         var listItem = document.createElement("li")
         listItem.setAttribute("class", "list-group-item")
         listItem.textContent = highscores[i].name + "  score: " + highscores[i].score;
